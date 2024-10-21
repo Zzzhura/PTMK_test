@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataBase implements AutoCloseable{
+    private static final String url = "jdbc:postgresql://localhost:5432/PTMK";
+    private static final String dataBaseUser = "postgres";
+    private static final String dataBaseUserPassword = "zhura323";
     public Connection connection;
 
-    public DataBase(String url, String user, String password) throws SQLException {
-        this.connection =  DriverManager.getConnection(url, user, password);
-        System.out.println("CONNNECTED TO DB:" + url + "\n");
+    public DataBase() throws SQLException {
+        this.connection =  DriverManager.getConnection(url, dataBaseUser, dataBaseUserPassword);
+        System.out.println("Created DB object" + "\n");
     }
 
     public void createTable() throws SQLException {
@@ -62,7 +65,7 @@ public class DataBase implements AutoCloseable{
                 String personalInfo = resultSet.getString("person_info");
                 String birthDate = resultSet.getString("birth_date");
                 String gender = resultSet.getString("gender");
-                int age = Employee.calculateAge(LocalDate.parse(birthDate));
+                int age = Employee.calculateAge(LocalDate.parse(birthDate.substring(0, 10)));
                 System.out.println("Person info: " + personalInfo + ", birth date: " + birthDate + ", gender: " + gender +  ", full age: " + age + "\n");
             }
 
